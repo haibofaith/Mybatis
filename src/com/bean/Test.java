@@ -2,6 +2,7 @@ package com.bean;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -18,12 +19,14 @@ public class Test {
 		//构建 sqlSession 的工厂
 		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
 		//创建能执行映射文件中 sql 的 sqlSession 
-		SqlSession session = sessionFactory.openSession();
-		//映射 sql 的标识字符串
-		String statement = "com.bean.userMapper.getUser";
-		//执行查询返回一个唯一 user 对象的 sql 
-		User user = session.selectOne(statement, 1);
-		System.out.println(user.getName()+user.getAge());
+		SqlSession session = sessionFactory.openSession(true);
+		
+		String statement = "com.map.userMapper.selectUser";
+		User user = session.selectOne(statement, 10);
+		System.out.println(user.getName());
+//		UserMapper userMapper = session.getMapper(UserMapper.class);
+//		userMapper.addUser(new User("bobo",45));
+//		session.close();
 	}
 
 }
